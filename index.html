@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HỌC TIẾNG TRUNG (HSK) - Duolingo Interactive Master</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#F7F7F7] text-[#4B4B4B] font-['Nunito',sans-serif] min-h-screen flex flex-col antialiased select-none">
+
+  <!-- Header -->
+  <header class="bg-white border-b-2 border-stone-200 sticky top-0 z-30 px-4 lg:px-12 py-2.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-[#58CC02] border-b-4 border-[#46A302] text-white flex items-center justify-center font-bold font-chinese text-xl">
+        文
+      </div>
+      <div>
+        <span class="font-extrabold text-lg lg:text-xl tracking-tight text-[#58CC02] uppercase block font-['Fredoka']">HỌC TIẾNG TRUNG (HSK)</span>
+        <span class="text-[10px] text-stone-400 font-bold block -mt-1">HỘI THOẠI • GHÉP CÂU • TẬP VIẾT • NGHE & NGỮ PHÁP</span>
+      </div>
+    </div>
+
+    <!-- Gamification Top Stats -->
+    <div class="flex items-center gap-3 lg:gap-6">
+      <div class="flex items-center gap-1.5 font-extrabold text-amber-500 text-sm">
+        <i data-lucide="flame" class="w-5 h-5 fill-amber-500 text-amber-500"></i>
+        <span id="userStreakDisplay">1</span>
+      </div>
+      <div class="flex items-center gap-1.5 font-extrabold text-[#1CB0F6] text-sm">
+        <i data-lucide="zap" class="w-5 h-5 fill-[#1CB0F6] text-[#1CB0F6]"></i>
+        <span id="userExpDisplay">0 EXP</span>
+      </div>
+      <div class="flex items-center gap-1.5 font-extrabold text-[#FF4B4B] text-sm">
+        <i data-lucide="heart" class="w-5 h-5 fill-[#FF4B4B] text-[#FF4B4B]"></i>
+        <span id="userHeartsDisplay">5</span>
+      </div>
+      <button id="userAuthBtn" class="flex items-center gap-2 pl-2 pr-3 py-1 rounded-xl border-2 border-stone-200 hover:bg-stone-50 font-bold text-xs text-stone-700">
+        <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black" id="userAvatarText">?</span>
+        <span id="userDisplayName" class="max-w-[80px] sm:max-w-[120px] truncate">Đăng nhập</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="flex-1 flex max-w-7xl w-full mx-auto px-4 py-6 gap-8">
+    
+    <!-- Sidebar Left -->
+    <nav class="hidden lg:flex flex-col w-64 gap-2 shrink-0">
+      <button class="nav-btn active flex items-center gap-4 px-4 py-3 rounded-2xl border-2 border-[#58CC02] bg-[#58CC02]/10 text-[#58CC02] font-extrabold text-sm uppercase tracking-wider" data-tab="tab-learn">
+        <i data-lucide="map" class="w-5 h-5"></i> Cây Bài Học
+      </button>
+      <button class="nav-btn flex items-center gap-4 px-4 py-3 rounded-2xl border-2 border-transparent hover:bg-stone-100 text-stone-500 font-extrabold text-sm uppercase tracking-wider transition-all" data-tab="tab-dictionary">
+        <i data-lucide="book" class="w-5 h-5"></i> Tra Cứu Từ Điển
+      </button>
+      <button class="nav-btn flex items-center gap-4 px-4 py-3 rounded-2xl border-2 border-transparent hover:bg-stone-100 text-stone-500 font-extrabold text-sm uppercase tracking-wider transition-all" data-tab="tab-exam">
+        <i data-lucide="award" class="w-5 h-5"></i> Thi Thăng Cấp
+      </button>
+    </nav>
+
+    <!-- Workspace -->
+    <main class="flex-1 min-w-0 max-w-3xl mx-auto">
+      
+      <!-- TAB 1: CÂY TIẾN ĐỘ DUOLINGO -->
+      <section id="tab-learn" class="tab-pane flex flex-col items-center">
+        <div class="w-full bg-[#58CC02] border-b-4 border-[#46A302] rounded-3xl p-5 text-white mb-8 shadow-sm flex items-center justify-between">
+          <div>
+            <div class="text-xs uppercase font-extrabold tracking-wider opacity-90">Lộ trình học toàn diện</div>
+            <h2 id="currentHskBannerTitle" class="text-2xl font-black">HSK 1: Cơ bản nhập môn</h2>
+            <p id="currentHskBannerDesc" class="text-xs opacity-95 mt-1 font-semibold">Tích hợp đủ: Hội thoại • Ngữ pháp • Ghép câu • Luyện viết • Luyện nghe</p>
+          </div>
+          <select id="selectHskTier" class="bg-white/20 text-white font-black text-sm border-2 border-white/40 rounded-2xl px-4 py-2 cursor-pointer">
+            <option value="1" class="text-stone-800">Cấp độ HSK 1</option>
+            <option value="2" class="text-stone-800">Cấp độ HSK 2</option>
+            <option value="3" class="text-stone-800">Cấp độ HSK 3</option>
+            <option value="4" class="text-stone-800">Cấp độ HSK 4</option>
+            <option value="5" class="text-stone-800">Cấp độ HSK 5</option>
+            <option value="6" class="text-stone-800">Cấp độ HSK 6</option>
+          </select>
+        </div>
+
+        <div id="learningPathContainer" class="w-full flex flex-col items-center py-4 space-y-6"></div>
+      </section>
+
+      <!-- TAB 2: TỪ ĐIỂN -->
+      <section id="tab-dictionary" class="tab-pane hidden flex flex-col gap-4">
+        <div class="bg-white rounded-3xl border-2 border-stone-200 p-6 shadow-sm">
+          <h2 class="text-xl font-black text-stone-900 mb-3">Tra cứu từ vựng chuẩn HSK</h2>
+          <input type="text" id="dictSearchInput" placeholder="Tìm theo chữ Hán, Pinyin hoặc tiếng Việt..." class="w-full px-4 py-2.5 rounded-2xl border-2 border-stone-200 font-bold text-sm text-stone-800 focus:outline-none focus:border-[#58CC02] mb-3">
+          <div id="dictionaryTable" class="divide-y divide-stone-100 max-h-[500px] overflow-y-auto custom-scrollbar"></div>
+        </div>
+      </section>
+
+      <!-- TAB 3: THI THĂNG CẤP -->
+      <section id="tab-exam" class="tab-pane hidden">
+        <div class="bg-white rounded-3xl border-2 border-stone-200 p-6 shadow-sm max-w-xl mx-auto text-center">
+          <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-3 border-b-4 border-indigo-200">
+            <i data-lucide="shield-check" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-xl font-black text-stone-900">Bài Thi Vượt Cấp HSK</h2>
+          <p class="text-xs font-bold text-stone-500 mb-6">Đạt 80% điểm để mở khóa ngay cấp độ HSK kế tiếp.</p>
+          <div id="examContainer" class="p-5 rounded-2xl bg-stone-50 border-2 border-stone-200 text-left">
+            <div class="flex justify-between text-xs font-black text-stone-400 mb-3">
+              <span id="examLevelTarget">HSK 1 ➔ HSK 2</span>
+              <span id="examCounterText">Câu 1 / 5</span>
+            </div>
+            <div class="text-center py-3">
+              <div id="examQuestionHanzi" class="text-3xl font-chinese font-black text-stone-800 mb-1">谢谢</div>
+              <div id="examQuestionPinyin" class="text-sm font-bold text-stone-400">xiè xie</div>
+            </div>
+            <div id="examOptionsList" class="grid grid-cols-1 gap-2.5 mt-3"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Mobile Bar -->
+  <div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t-2 border-stone-200 px-6 py-2 flex justify-around z-30">
+    <button class="nav-btn active flex flex-col items-center text-[#58CC02] font-black text-[11px]" data-tab="tab-learn">
+      <i data-lucide="map" class="w-5 h-5"></i> Bài học
+    </button>
+    <button class="nav-btn flex flex-col items-center text-stone-400 font-black text-[11px]" data-tab="tab-dictionary">
+      <i data-lucide="book" class="w-5 h-5"></i> Từ điển
+    </button>
+    <button class="nav-btn flex flex-col items-center text-stone-400 font-black text-[11px]" data-tab="tab-exam">
+      <i data-lucide="award" class="w-5 h-5"></i> Thi cấp
+    </button>
+  </div>
+
+  <!-- MODAL BÀI HỌC TOÀN DIỆN (HỘI THOẠI, NGỮ PHÁP, GHÉP CÂU, TẬP VIẾT, LUYỆN NGHE, FLASHCARD) -->
+  <div id="lessonModal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-4 sm:p-6 relative border-b-8 border-stone-200 flex flex-col max-h-[95vh] overflow-hidden">
+      
+      <!-- Top Bar Modal -->
+      <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+        <div>
+          <span id="modalLessonLevel" class="text-xs font-black text-[#58CC02] uppercase tracking-wider">HSK 1 - BÀI 1</span>
+          <h3 id="modalLessonTitle" class="text-lg font-black text-stone-900">Gặp Gỡ & Chào Hỏi</h3>
+        </div>
+        <button id="closeLessonModalBtn" class="p-2 text-stone-400 hover:bg-stone-100 rounded-2xl">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- 6 Tabs Bên Trong Bài Học -->
+      <div class="flex border-b border-stone-200 gap-1.5 mt-2 text-xs font-black overflow-x-auto no-scrollbar">
+        <button class="lesson-subtab active py-2 px-2.5 border-b-2 border-[#58CC02] text-[#58CC02] whitespace-nowrap" data-section="sec-dialogue">
+          1. Hội Thoại
+        </button>
+        <button class="lesson-subtab py-2 px-2.5 border-b-2 border-transparent text-stone-400 hover:text-stone-700 whitespace-nowrap" data-section="sec-grammar">
+          2. Ngữ Pháp
+        </button>
+        <button class="lesson-subtab py-2 px-2.5 border-b-2 border-transparent text-stone-400 hover:text-stone-700 whitespace-nowrap" data-section="sec-build-sentence">
+          3. Ghép Câu
+        </button>
+        <button class="lesson-subtab py-2 px-2.5 border-b-2 border-transparent text-stone-400 hover:text-stone-700 whitespace-nowrap" data-section="sec-hanzi-writer">
+          4. Tập Viết Chữ
+        </button>
+        <button class="lesson-subtab py-2 px-2.5 border-b-2 border-transparent text-stone-400 hover:text-stone-700 whitespace-nowrap" data-section="sec-listening">
+          5. Luyện Nghe
+        </button>
+        <button class="lesson-subtab py-2 px-2.5 border-b-2 border-transparent text-stone-400 hover:text-stone-700 whitespace-nowrap" data-section="sec-vocab">
+          6. Từ Vựng
+        </button>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div class="flex-1 overflow-y-auto py-3 custom-scrollbar">
+        
+        <!-- SECTION 1: HỘI THOẠI -->
+        <div id="sec-dialogue" class="lesson-section space-y-3">
+          <div class="flex items-center justify-between bg-stone-50 p-2.5 rounded-2xl border border-stone-200">
+            <span class="text-xs font-bold text-stone-500">Nghe đoạn đàm thoại mẫu:</span>
+            <button id="playFullDialogueBtn" class="px-3 py-1 bg-[#58CC02] text-white rounded-xl text-xs font-black flex items-center gap-1.5 hover:bg-[#46A302]">
+              <i data-lucide="play" class="w-3.5 h-3.5"></i> Nghe cả bài
+            </button>
+          </div>
+          <div id="dialogueChatContainer" class="space-y-2.5"></div>
+        </div>
+
+        <!-- SECTION 2: NGỮ PHÁP -->
+        <div id="sec-grammar" class="lesson-section hidden space-y-3">
+          <div id="grammarContentBox" class="space-y-3"></div>
+        </div>
+
+        <!-- SECTION 3: BÀI TẬP GHÉP CÂU (SENTENCE BUILDER) -->
+        <div id="sec-build-sentence" class="lesson-section hidden space-y-4">
+          <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100">
+            <span class="text-xs font-black text-sky-700 uppercase tracking-wider block mb-1">Dịch câu sau sang tiếng Trung:</span>
+            <div id="sentenceTargetVn" class="text-base font-black text-stone-800">"Chào bạn! Rất vui được gặp bạn."</div>
+          </div>
+
+          <!-- Khung câu người dùng đang ghép -->
+          <div class="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50 flex flex-wrap gap-2 items-center" id="sentenceAnswerArea">
+            <span class="text-xs font-bold text-stone-400" id="sentenceEmptyPlaceholder">Bấm vào các từ bên dưới để ghép vào đây...</span>
+          </div>
+
+          <!-- Ngân hàng từ xáo trộn để bấm chọn -->
+          <div>
+            <span class="text-[11px] font-bold text-stone-400 uppercase tracking-widest block mb-2">Ngân hàng từ vựng:</span>
+            <div id="sentenceWordBank" class="flex flex-wrap gap-2.5"></div>
+          </div>
+
+          <!-- Nút kiểm tra và phản hồi -->
+          <div class="pt-2 flex items-center justify-between">
+            <button id="resetSentenceBtn" class="text-xs font-bold text-stone-400 hover:text-stone-600 underline">Làm lại</button>
+            <button id="checkSentenceBtn" class="px-5 py-2.5 rounded-2xl bg-[#58CC02] border-b-4 border-[#46A302] text-white font-black text-xs uppercase hover:bg-[#46A302]">
+              Kiểm Tra Câu
+            </button>
+          </div>
+          <div id="sentenceFeedback" class="text-xs font-black p-3 rounded-2xl text-center hidden"></div>
+        </div>
+
+        <!-- SECTION 4: TẬP VIẾT CHỮ HÁN (CANVAS WRITER) -->
+        <div id="sec-hanzi-writer" class="lesson-section hidden flex flex-col items-center space-y-3">
+          <div class="flex items-center justify-between w-full max-w-sm">
+            <span class="text-xs font-black text-stone-500 uppercase">Tập viết theo ô Mễ tự:</span>
+            <!-- Chọn từ trong bài để tập viết -->
+            <select id="selectHanziToWrite" class="text-xs font-bold bg-stone-100 border border-stone-200 rounded-xl px-2.5 py-1 text-stone-800"></select>
+          </div>
+
+          <!-- Bảng vẽ Canvas với ô kẻ chữ điền -->
+          <div class="relative w-[280px] h-[280px] border-4 border-[#58CC02] rounded-3xl bg-white shadow-inner overflow-hidden select-none">
+            <!-- Ô lưới chữ điền mễ tự cách (Nét đứt chữ thập và chéo) -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="140" x2="280" y2="140" stroke="#FF4B4B" stroke-dasharray="6" stroke-width="2"/>
+              <line x1="140" y1="0" x2="140" y2="280" stroke="#FF4B4B" stroke-dasharray="6" stroke-width="2"/>
+              <line x1="0" y1="0" x2="280" y2="280" stroke="#FF4B4B" stroke-dasharray="4" stroke-width="1.5"/>
+              <line x1="280" y1="0" x2="0" y2="280" stroke="#FF4B4B" stroke-dasharray="4" stroke-width="1.5"/>
+            </svg>
+            <!-- Chữ Hán mẫu mờ mờ để đồ theo -->
+            <div id="hanziGuideChar" class="absolute inset-0 flex items-center justify-center font-chinese text-[180px] font-bold text-stone-200 pointer-events-none">
+              你
+            </div>
+            <!-- Canvas viết tay -->
+            <canvas id="hanziCanvas" width="280" height="280" class="absolute inset-0 cursor-crosshair touch-none"></canvas>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="clearCanvasBtn" class="px-4 py-2 rounded-xl border-2 border-stone-200 font-extrabold text-xs text-stone-600 hover:bg-stone-100 flex items-center gap-1.5">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Xóa bảng viết
+            </button>
+            <button id="toggleGuideBtn" class="px-4 py-2 rounded-xl border-2 border-stone-200 font-extrabold text-xs text-stone-600 hover:bg-stone-100 flex items-center gap-1.5">
+              <i data-lucide="eye" class="w-3.5 h-3.5"></i> Ẩn/Hiện nét mẫu
+            </button>
+            <button id="speakHanziWriteBtn" class="px-4 py-2 rounded-xl bg-[#1CB0F6] text-white font-extrabold text-xs hover:bg-[#1899D6] flex items-center gap-1.5">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Phát âm
+            </button>
+          </div>
+          <span class="text-[11px] font-bold text-stone-400">Dùng chuột hoặc ngón tay để vẽ các nét chữ Hán trên màn hình cảm ứng</span>
+        </div>
+
+        <!-- SECTION 5: LUYỆN NGHE -->
+        <div id="sec-listening" class="lesson-section hidden space-y-4 text-center">
+          <span class="text-xs font-bold text-stone-400 uppercase tracking-widest block">Thử tài luyện tai nghe</span>
+          <div class="my-3">
+            <button id="playListeningAudioBtn" class="w-20 h-20 bg-amber-400 hover:bg-amber-500 text-white rounded-full border-b-4 border-amber-600 flex items-center justify-center mx-auto shadow-md transition-all active:translate-y-1">
+              <i data-lucide="volume-2" class="w-10 h-10"></i>
+            </button>
+            <span class="text-xs font-bold text-stone-500 block mt-2">Bấm để nghe âm thanh tiếng Trung</span>
+          </div>
+          <div id="listeningQuestionTitle" class="text-sm font-black text-stone-700">Người nói vừa nhắc tới nội dung nào?</div>
+          <div id="listeningOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-md mx-auto mt-2"></div>
+          <div id="listeningFeedback" class="text-xs font-black mt-2 hidden"></div>
+        </div>
+
+        <!-- SECTION 6: TỪ VỰNG THẺ LẬT -->
+        <div id="sec-vocab" class="lesson-section hidden flex flex-col items-center">
+          <div id="modalFlashcard" class="flashcard-inner w-full max-w-sm aspect-[4/3] rounded-3xl shadow-md border-2 border-stone-200 cursor-pointer bg-white mb-3">
+            <div class="flashcard-front p-6 flex flex-col items-center justify-between">
+              <div class="w-full flex justify-end">
+                <button id="modalSpeechBtn" class="p-2 text-stone-400 hover:text-[#58CC02]"><i data-lucide="volume-2" class="w-6 h-6"></i></button>
+              </div>
+              <div class="text-center">
+                <div id="modalHanzi" class="text-6xl font-chinese font-black text-stone-800 mb-2">你好</div>
+                <div id="modalPinyin" class="text-lg font-bold text-stone-400">nǐ hǎo</div>
+              </div>
+              <span class="text-xs font-extrabold text-stone-300 uppercase">Nhấp để lật nghĩa</span>
+            </div>
+            <div class="flashcard-back p-6 flex flex-col items-center justify-between bg-emerald-50/50 border-2 border-emerald-300 rounded-3xl">
+              <span id="modalHanViet" class="text-xs font-black text-emerald-700">Âm Hán Việt: Nhĩ Hảo</span>
+              <div class="text-center my-auto">
+                <div id="modalMeaning" class="text-2xl font-black text-stone-900 mb-2">Xin chào</div>
+                <div class="text-xs font-semibold text-stone-600 font-chinese" id="modalExample">你好！很高兴认识你。</div>
+              </div>
+              <span class="text-xs font-extrabold text-stone-400">Nhấp để quay lại</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <button id="modalPrevCardBtn" class="px-4 py-2 rounded-2xl border-2 border-stone-200 font-extrabold text-xs">Trước</button>
+            <span id="modalCardCounter" class="text-xs font-black text-stone-400">1 / 3</span>
+            <button id="modalNextCardBtn" class="px-4 py-2 rounded-2xl bg-[#58CC02] text-white font-extrabold text-xs">Sau</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Button Hoàn Thành -->
+      <div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+        <span class="text-xs font-bold text-stone-400">Hoàn thành các hoạt động để nhận thưởng</span>
+        <button id="completeLessonBtn" class="px-5 py-2.5 rounded-2xl bg-[#58CC02] border-b-4 border-[#46A302] text-white font-black text-xs uppercase tracking-wider hover:bg-[#46A302]">
+          Hoàn thành bài (+40 EXP)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL KHÓA BÀI HỌC -->
+  <div id="lockModal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center border-b-8 border-stone-200">
+      <div class="w-16 h-16 bg-rose-100 text-[#FF4B4B] rounded-3xl flex items-center justify-center mx-auto mb-4 border-b-4 border-rose-200">
+        <i data-lucide="lock" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-xl font-black text-stone-900 mb-2">Cấp Độ Bị Khóa!</h3>
+      <p id="lockModalMessage" class="text-xs font-bold text-stone-500 mb-6 leading-relaxed">
+        Bạn cần đạt cấp độ yêu cầu để mở khóa bài học này.
+      </p>
+      <button id="closeLockModalBtn" class="w-full py-3 rounded-2xl bg-[#FF4B4B] border-b-4 border-[#D93838] text-white font-black text-xs uppercase tracking-wider">
+        Tôi đã hiểu
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL PROFILE -->
+  <div id="authModal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 border-b-8 border-stone-200">
+      <h3 class="text-xl font-black text-stone-900 mb-1">Hồ Sơ Của Bạn</h3>
+      <p class="text-xs font-bold text-stone-400 mb-4">Lưu trữ thông tin và đồng bộ cấp độ lên Google Sheets</p>
+      <form id="authForm" class="space-y-3">
+        <input type="text" id="authUsernameInput" required placeholder="Họ và tên" class="w-full px-4 py-2.5 rounded-2xl border-2 border-stone-200 text-sm font-bold text-stone-800">
+        <input type="email" id="authEmailInput" required placeholder="Email đăng ký" class="w-full px-4 py-2.5 rounded-2xl border-2 border-stone-200 text-sm font-bold text-stone-800">
+        <button type="submit" class="w-full py-3 rounded-2xl bg-[#58CC02] border-b-4 border-[#46A302] text-white font-black text-xs uppercase tracking-wider">Lưu lại</button>
+      </form>
+      <div class="mt-3 text-center">
+        <button id="closeAuthModalBtn" class="text-xs font-bold text-stone-400">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
